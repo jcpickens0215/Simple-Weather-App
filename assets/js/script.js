@@ -1,17 +1,37 @@
-const BASE_URL = "https://api.openweathermap.org/data/2.5/weather?q=";
-var requestUrl = BASE_URL + "Dallas,tx,us" + "&appid=" + API_KEY;
+const BASE_URL = "https://api.openweathermap.org/data/2.5/";
+var sRequestInitial = BASE_URL + "weather?" + "appid=" + API_KEY + "&units=imperial" + "&q=Dallas,tx,us";
 
-function getApi(requestUrl) {
+function getWeather(request) {
 
-  fetch(requestUrl).then(function (response) {
+    var nLatitude = "";
+    var nLongitude = "";
 
-      return response.json();
+    fetch(request).then(function (response) {
 
-  }).then(function (data) {
+        return response.json();
 
-    console.log(data);
-    
-  });
+    }).then(function (data) {
+
+        console.log(data);
+        nLatitude = data.coord.lat;
+        nLongitude = data.coord.lon;
+
+        getForecast(nLatitude, nLongitude);
+    });
 }
 
-getApi(requestUrl);
+function getForecast(lat, lon) {
+
+    var sRequestSecondary = BASE_URL + "onecall?" + "lat=" + lat + "&lon=" + lon + "&units=imperial" +"&appid=" + API_KEY;
+
+    fetch(sRequestSecondary).then(function (response) {
+
+        return response.json();
+
+    }).then(function (data) {
+
+        console.log(data);
+    });
+}
+
+getWeather(sRequestInitial);
