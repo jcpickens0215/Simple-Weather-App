@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Weather Dashboard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+        <link rel="stylesheet" href="./assets/css/style.css">
+    </head>
+
+    <body>
+
+        <header class="columns is-mobile is-centered mt-1">
+            <div class="column is-12">
+                <h1 class="title is-1">Weather App</h1>
+            </div>
+        </header>
+        
+        <section class="container is-fluid mt-4">
+
+            <div class="columns is-desktop">
+
+                <div class="column is-12-mobile is-12-tablet is-4-desktop is-3-widescreen has-background-black">
+                    <div class="field has-addons">
+                        <div class="control is-expanded">
+                            <input class="input" type="text" placeholder="Search for a city!">
+                        </div>
+                        <div class="control">
+                            <a class="button is-info">
+                                Search
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Dropdown w/ history goes here -->
+                    <nav class="navbar" role="navigation" aria-label="main navigation">
+
+                        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="history">
+                            <span aria-hidden="true"></span>
+                            <span aria-hidden="true"></span>
+                            <span aria-hidden="true"></span>
+                        </a>
+                      
+                        <div id="history">
+                            <ul class="content p-4">
+                                <li>History Item 1</li>
+                                <li>History Item 2</li>
+                                <li>History Item 3</li>
+                                <li>History Item 4</li>
+                                <li>History Item 5</li>
+                            </ul>
+                        </div>
+
+                    </nav>
+
+                </div>
+
+                <div class="column is-12-mobile is-12-tablet is-8-desktop is-9-widescreen has-background-danger">
+                    <div class="box content">
+                        <h1><span id="cityField"></span> City and Date! <span id="dateField"></span></h1>
+                        <p>Temp: <span id="tempField"></span></p>
+                        <p>Wind: <span id="windField"></span></p>
+                        <p>Humidity: <span id="humidField"></span></p>
+                        <p>UV Index: <span id="uvIndexField"></span></p>
+                    </div>
+
+                    <ul class="columns is-desktop p-4 is-multiline has-background-primary">
+
+                        <li class="column is-12-desktop is-one-fifth-widescreen">
+                            <div class="box content">
+                                <h3 class="subtitle is-3">Date<span id="nextDate"></span></h3>
+                                <i class="icon"></i>
+                                <p>Temp: <span id="cardTempField"></span></p>
+                                <p>Wind: <span id="cardWindField"></span></p>
+                                <p>Humidity: <span id="cardHumidField"></span></p>
+                            </div>
+                        </li>
+                        
+                        <li class="column is-12-desktop is-one-fifth-widescreen">
+                            <div class="box content">
+                                <h3 class="subtitle is-3">Date<span id="nextDate"></span></h3>
+                                <i class="icon"></i>
+                                <p>Temp: <span id="cardTempField"></span></p>
+                                <p>Wind: <span id="cardWindField"></span></p>
+                                <p>Humidity: <span id="cardHumidField"></span></p>
+                            </div>
+                        </li>
+                                                    
+                        <li class="column is-12-desktop is-one-fifth-widescreen">
+                            <div class="box content">
+                                <h3 class="subtitle is-3">Date<span id="nextDate"></span></h3>
+                                <i class="icon"></i>
+                                <p>Temp: <span id="cardTempField"></span></p>
+                                <p>Wind: <span id="cardWindField"></span></p>
+                                <p>Humidity: <span id="cardHumidField"></span></p>
+                            </div>
+                        </li>
+                                                    
+                        <li class="column is-12-desktop is-one-fifth-widescreen">
+                            <div class="box content">
+                                <h3 class="subtitle is-3">Date<span id="nextDate"></span></h3>
+                                <i class="icon"></i>
+                                <p>Temp: <span id="cardTempField"></span></p>
+                                <p>Wind: <span id="cardWindField"></span></p>
+                                <p>Humidity: <span id="cardHumidField"></span></p>
+                            </div>
+                        </li>
+                                                    
+                        <li class="column is-12-desktop is-one-fifth-widescreen">
+                            <div class="box content">
+                                <h3 class="subtitle is-3">Date<span id="nextDate"></span></h3>
+                                <i class="icon"></i>
+                                <p>Temp: <span id="cardTempField"></span></p>
+                                <p>Wind: <span id="cardWindField"></span></p>
+                                <p>Humidity: <span id="cardHumidField"></span></p>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </section>
+
+        <script src="./assets/js/script.js"></script>
+    </body>
+
+</html>
+
