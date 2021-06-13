@@ -36,7 +36,7 @@ function populateForecastCards(oDays) {
         // Icon representing weather state
         var eIcon = $("<img>");
         eIcon.attr("src", ICON_BASE_URL + oDays[index].weather[0].icon + ".png")
-        // eIcon.text(oDays[index].weather[0].icon);
+        eIcon.attr("alt", data.daily[0].weather[0].description); // Set the alt text
 
         // Temperature display
         var eTemp = $("<p>");
