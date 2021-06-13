@@ -1,6 +1,6 @@
 // URL vars
 const BASE_URL = "https://api.openweathermap.org/data/2.5/";
-const ICON_BASE_URL = "http://openweathermap.org/img/w/";
+const ICON_BASE_URL = "https://openweathermap.org/img/w/";
 var sCityName = "fort worth,tx,us";
 var sRequestInitial = BASE_URL + "weather?appid=" + API_KEY + "&units=imperial&q=" + sCityName;
 
@@ -36,7 +36,7 @@ function populateForecastCards(oDays) {
         // Icon representing weather state
         var eIcon = $("<img>");
         eIcon.attr("src", ICON_BASE_URL + oDays[index].weather[0].icon + ".png")
-        eIcon.attr("alt", data.daily[0].weather[0].description); // Set the alt text
+        eIcon.attr("alt", oDays[index].weather[0].description); // Set the alt text
 
         // Temperature display
         var eTemp = $("<p>");
