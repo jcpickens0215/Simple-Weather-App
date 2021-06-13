@@ -1,5 +1,6 @@
 // URL vars
 const BASE_URL = "https://api.openweathermap.org/data/2.5/";
+const ICON_BASE_URL = "http://openweathermap.org/img/w/";
 var sCityName = "fort worth,tx,us";
 var sRequestInitial = BASE_URL + "weather?appid=" + API_KEY + "&units=imperial&q=" + sCityName;
 
@@ -33,9 +34,9 @@ function populateForecastCards(oDays) {
         eHeader.text("Date: "); // Use moment to convert UNIX timestamp
 
         // Icon representing weather state
-        var eIcon = $("<i>");
-        eIcon.text();
-        eIcon.text(oDays[index].weather[0].icon);
+        var eIcon = $("<img>");
+        eIcon.attr("src", ICON_BASE_URL + oDays[index].weather[0].icon + ".png")
+        // eIcon.text(oDays[index].weather[0].icon);
 
         // Temperature display
         var eTemp = $("<p>");
@@ -75,7 +76,10 @@ function getForecast(lat, lon) {
     }).then(function (data) {
 
         aeTodaysWeather[1].text(data.daily[0].dt); // Date
-        aeTodaysWeather[2].text(data.daily[0].weather[0].icon); // Weather icon
+
+        aeTodaysWeather[2].attr("src", ICON_BASE_URL + data.daily[0].weather[0].icon + ".png"); // Weather icon
+        aeTodaysWeather[2].attr("alt", data.daily[0].weather[0].description); // Set the alt text
+
         aeTodaysWeather[3].text(data.daily[0].temp.day + " F"); // Temperature (Choose temp by time?)
         aeTodaysWeather[4].text(data.daily[0].wind_speed + " MPH"); // Wind Speed
         aeTodaysWeather[5].text(data.daily[0].humidity + "%"); // Humidity
