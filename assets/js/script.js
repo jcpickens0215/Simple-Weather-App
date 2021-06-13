@@ -6,6 +6,7 @@ var sRequestInitial = BASE_URL + "weather?appid=" + API_KEY + "&units=imperial&q
 // Element vars
 var aeTodaysWeather = [ $("#cityField"),
                         $("#dateField"),
+                        $("#iconField"),
                         $("#tempField"),
                         $("#windField"),
                         $("#humidField"),
@@ -73,6 +74,13 @@ function getForecast(lat, lon) {
 
     }).then(function (data) {
 
+        aeTodaysWeather[1].text(data.daily[0].dt); // Date
+        aeTodaysWeather[2].text(data.daily[0].weather[0].icon); // Weather icon
+        aeTodaysWeather[3].text(data.daily[0].temp.day + " F"); // Temperature (Choose temp by time?)
+        aeTodaysWeather[4].text(data.daily[0].wind_speed + " MPH"); // Wind Speed
+        aeTodaysWeather[5].text(data.daily[0].humidity + "%"); // Humidity
+        aeTodaysWeather[6].text(data.daily[0].uvi); // UV index
+
         var aFiveDays = data.daily.slice(1, 6); // I tested this parameter set with jsfiddle
         populateForecastCards(aFiveDays)
         console.log(data);
@@ -90,6 +98,8 @@ function getWeather(request) {
 
     }).then(function (data) {
 
+        // console.log(data);
+        aeTodaysWeather[0].text(data.name + ", " + data.sys.country); // City name
         getForecast(data.coord.lat, data.coord.lon);
     });
 }
