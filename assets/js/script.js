@@ -14,8 +14,20 @@ var aeTodaysWeather = [ $("#cityField"),
                         $("#uvIndexField") ];
 
 var eForecastField = $("#forecastField");
+var eSearchField = $("#searchField");
+
+// Search Button
+var eSearchButton = $("#searchBtn");
+
+function clearForecastListItems() {
+    eForecastField.empty();
+}
 
 function populateForecastCards(oDays) {
+
+    if (eForecastField.children().length > 0) {
+        clearForecastListItems();
+    }
 
     // For each of the days passed in, create a card
     for (var index = 0; index < oDays.length; index++) {
@@ -78,12 +90,12 @@ function getForecast(lat, lon) {
         aeTodaysWeather[1].text(data.daily[0].dt); // Date
 
         aeTodaysWeather[2].attr("src", ICON_BASE_URL + data.daily[0].weather[0].icon + ".png"); // Weather icon
-        aeTodaysWeather[2].attr("alt", data.daily[0].weather[0].description); // Set the alt text
+        aeTodaysWeather[2].attr("alt", data.current.weather[0].description); // Set the alt text
 
-        aeTodaysWeather[3].text(data.daily[0].temp.day + " F"); // Temperature (Choose temp by time?)
-        aeTodaysWeather[4].text(data.daily[0].wind_speed + " MPH"); // Wind Speed
-        aeTodaysWeather[5].text(data.daily[0].humidity + "%"); // Humidity
-        aeTodaysWeather[6].text(data.daily[0].uvi); // UV index
+        aeTodaysWeather[3].text(data.current.temp + " F"); // Temperature (Choose temp by time?)
+        aeTodaysWeather[4].text(data.current.wind_speed + " MPH"); // Wind Speed
+        aeTodaysWeather[5].text(data.current.humidity + "%"); // Humidity
+        aeTodaysWeather[6].text(data.current.uvi); // UV index
 
         var aFiveDays = data.daily.slice(1, 6); // I tested this parameter set with jsfiddle
         populateForecastCards(aFiveDays)
@@ -108,4 +120,12 @@ function getWeather(request) {
     });
 }
 
-getWeather(sRequestInitial);
+// getWeather(sRequestInitial);
+eSearchButton.click(function() {
+    console.log("Click!");
+    var sCityInput = eSearchField.val();
+    console.log(sCityInput);
+    var sRequest = BASE_URL + "weather?appid=" + API_KEY + "&units=imperial&q=" + sCityInput;
+    console.log(sRequest);
+    getWeather(sRequest);
+});
