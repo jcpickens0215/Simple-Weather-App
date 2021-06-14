@@ -24,6 +24,24 @@ var aeTodaysWeather = [ $("#cityField"),
 // Search Button
 var eSearchButton = $("#searchBtn");
 
+// Init: Load all history items from local data
+function initLoadHistoryFromLocalStorage() {
+
+        // Hold formatted data for error checking (so I don't repeat myself)
+        var aHistoryRetrievedFromLocalStorage = JSON.parse(localStorage.getItem("search_history"));
+
+        // Check to see if an item existed in local storage!
+        if (aHistoryRetrievedFromLocalStorage !== null) { // If we have something
+    
+            // Store the data into the container array
+            aPreviousSearches = aHistoryRetrievedFromLocalStorage;
+    
+            // Display loaded history items
+            populateHistoryList();
+        }
+}
+
+// Clear the history list
 function clearHistoryListItems() {
     eHistoryField.empty();
 }
@@ -119,6 +137,7 @@ function populateForecastCards(oDays) {
     }
 }
 
+// Create buttons for the history list
 function populateHistoryList() {
 
         // If the list already has items, clear it
@@ -220,10 +239,40 @@ function getWeather(request) {
             // Display previous searches
             populateHistoryList();
 
-            getForecast(data.coord.lat, data.coord.lon); // Get 5 day forecast
+            // Save search history to localstorage
+            if (!aPreviousSearches.includes(sCurrentSearch)) {
+
+                var sDataToSave; // Declare container string
+
+                // If this is not the first search
+                if (aPreviousSearches.length > 0) {
+
+                    // Add the current search to the previous searches
+                    aPreviousSearches.push(sCurrentSearch);
+
+                    // Sort the array
+                    aPreviousSearches.sort();
+
+                    // Convert array to string
+                    sDataToSave = JSON.stringify(aPreviousSearches); 
+
+                } else { // If this is the first string
+
+                    sDataToSave = JSON.stringify(sCurrentSearch); // Save first search
+                }
+
+                // Save the data
+                localStorage.setItem("search_history", sDataToSave); 
+            }
+
+            // Get 5 day forecast
+            getForecast(data.coord.lat, data.coord.lon); 
         }
     });
 }
+
+// Initial function calls
+initLoadHistoryFromLocalStorage();
 
 // When the user clicks the "Search" button, use the text in the search field
 // to get the weather from the API call
