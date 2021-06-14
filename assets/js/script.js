@@ -1,30 +1,62 @@
 // URL vars
 const BASE_URL = "https://api.openweathermap.org/data/2.5/";
 const ICON_BASE_URL = "https://openweathermap.org/img/w/";
-var sCityName = "fort worth,tx,us";
-var sRequestInitial = BASE_URL + "weather?appid=" + API_KEY + "&units=imperial&q=" + sCityName;
 
 // Element vars
+var eForecastField = $("#forecastField");
+var eSearchField = $("#searchField");
+
+// Fields for current day panel
 var aeTodaysWeather = [ $("#cityField"),
                         $("#dateField"),
                         $("#iconField"),
                         $("#tempField"),
                         $("#windField"),
                         $("#humidField"),
-                        $("#uvIndexField") ];
-
-var eForecastField = $("#forecastField");
-var eSearchField = $("#searchField");
+                        $("#uvIndexField"),
+                        $("#errorField") ];
 
 // Search Button
 var eSearchButton = $("#searchBtn");
 
+// Clear all fields in the Current Day panel
+function clearCurrentDayPanel() {
+
+    aeTodaysWeather[1].text("");
+    aeTodaysWeather[2].attr("style", "visibility:hidden;")
+    aeTodaysWeather[3].text("");
+    aeTodaysWeather[4].text("");
+    aeTodaysWeather[5].text("");
+    aeTodaysWeather[6].text("");
+    aeTodaysWeather[7].text("");
+}
+
+// Clear out the forecast panel, to prevent doubling
 function clearForecastListItems() {
     eForecastField.empty();
 }
 
+// Let's the user know if an error ocurred
+function handleBadResponse(status) {
+
+    if (status === 404) { // Handle bad search
+
+        aeTodaysWeather[0].text("Could not find: " + eSearchField.val());
+        aeTodaysWeather[7].attr("style", "display:block;");
+        aeTodaysWeather[7].text("Please try again. You can search using [city name], [city name, country code], [city name, state code, country code], or [zip code]");
+
+    } else if (status === 500) { // Handle server side error
+
+        aeTodaysWeather[0].text("Server Error: 500");
+        aeTodaysWeather[7].attr("style", "display:block;");
+        aeTodaysWeather[7].text("Please try again later.");
+    }
+}
+
+// Create cards for the next 5 days
 function populateForecastCards(oDays) {
 
+    // If the list already has cards, clear it
     if (eForecastField.children().length > 0) {
         clearForecastListItems();
     }
@@ -77,10 +109,13 @@ function populateForecastCards(oDays) {
     }
 }
 
+// Use latitude and longitude from last call to get 5 day forecast data
 function getForecast(lat, lon) {
 
+    // Construct the request URL
     var sRequestSecondary = BASE_URL + "onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=" + API_KEY;
 
+    // Attempt second call
     fetch(sRequestSecondary).then(function (response) {
 
         return response.json();
@@ -88,44 +123,60 @@ function getForecast(lat, lon) {
     }).then(function (data) {
 
         aeTodaysWeather[1].text(data.daily[0].dt); // Date
-
         aeTodaysWeather[2].attr("src", ICON_BASE_URL + data.daily[0].weather[0].icon + ".png"); // Weather icon
         aeTodaysWeather[2].attr("alt", data.current.weather[0].description); // Set the alt text
-
+        aeTodaysWeather[2].attr("style", "visibility:visible;"); // Show the icon
         aeTodaysWeather[3].text(data.current.temp + " F"); // Temperature (Choose temp by time?)
         aeTodaysWeather[4].text(data.current.wind_speed + " MPH"); // Wind Speed
         aeTodaysWeather[5].text(data.current.humidity + "%"); // Humidity
         aeTodaysWeather[6].text(data.current.uvi); // UV index
 
+        // Only send the next 5 days to populateForecastCards
         var aFiveDays = data.daily.slice(1, 6); // I tested this parameter set with jsfiddle
-        populateForecastCards(aFiveDays)
+        populateForecastCards(aFiveDays);
         console.log(data);
     });
 }
 
+// Used to get latitude and longitude from city search
 function getWeather(request) {
 
+    // Hide the error field
+    aeTodaysWeather[7].attr("style", "display:none;");
+
+    // Attempt search of OWM server
     fetch(request).then(function (response) {
 
+        // If bad response
         if (response.status > 400) {
-            return;
+
+            // Clear everything
+            clearCurrentDayPanel()
+            clearForecastListItems();
+
+            // Write error to screen
+            handleBadResponse(response.status);
         }
+
         return response.json();
 
-    }).then(function (data) {
+    }).then(function (data) { 
 
-        // console.log(data);
-        aeTodaysWeather[0].text(data.name + ", " + data.sys.country); // City name
-        getForecast(data.coord.lat, data.coord.lon);
+        if (Number(data.cod) < 300) { // If there's something in data
+            aeTodaysWeather[0].text(data.name + ", " + data.sys.country); // City name
+            getForecast(data.coord.lat, data.coord.lon); // Get 5 day forecast
+        }
     });
 }
 
-// getWeather(sRequestInitial);
+// When the user clicks the "Search" button, use the text in the search field
+// to get the weather from the API call
 eSearchButton.click(function() {
-    console.log("Click!");
+
+    // Get the text from the search bar
     var sCityInput = eSearchField.val();
-    console.log(sCityInput);
+
+    // Construct the request URL
     var sRequest = BASE_URL + "weather?appid=" + API_KEY + "&units=imperial&q=" + sCityInput;
-    console.log(sRequest);
-    getWeather(sRequest);
+    getWeather(sRequest); // Get data from OWM
 });
