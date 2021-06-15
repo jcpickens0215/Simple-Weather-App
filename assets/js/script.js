@@ -21,8 +21,9 @@ var aeTodaysWeather = [ $("#cityField"),
                         $("#uvIndexField"),
                         $("#errorField") ];
 
-// Search Button
+// Button element vars
 var eSearchButton = $("#searchBtn");
+var eBurger = $(".navbar-burger");
 
 // Init: Load all history items from local data
 function initLoadHistoryFromLocalStorage() {
@@ -102,7 +103,7 @@ function populateForecastCards(oDays) {
 
         // Create the Header
         var eHeader = $("<h3>");
-        eHeader.addClass("subtitle is-3");
+        eHeader.addClass("subtitle is-5");
         eHeader.text(moment.unix(Number(oDays[index].dt)).format("dddd MM/DD")); // Show the date
 
         // Icon representing weather state
@@ -159,6 +160,7 @@ function populateHistoryList() {
                 // Set Button attributes
                 eListLink.attr("data-query", aPreviousSearches[index]);
                 eListLink.text(aPreviousSearches[index]);
+                eListLink.addClass("subtitle is-5 p-2");
 
                 // Add the Button to the list
                 eListItem.append(eListLink);
@@ -304,4 +306,12 @@ eHistoryField.click(function (event) {
         var sRequest = BASE_URL + "weather?appid=" + API_KEY + "&units=imperial&q=" + sPreviousSearch;
         getWeather(sRequest); // Get data from OWM
     }
-})
+});
+
+// Check for click events on the navbar burger icon
+eBurger.click(function() {
+
+    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+    eBurger.toggleClass("is-active");
+    $("#history").toggleClass("is-active");
+});

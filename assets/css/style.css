@@ -1,3 +1,11 @@
 .title {
     text-align: center;
 }
+
+.navbar {
+    flex-direction: column;
+}
+
+.navbar-menu ul, .navbar-menu button {
+    width: 100%;
+}

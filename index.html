@@ -22,7 +22,7 @@
 
             <div class="columns is-desktop">
 
-                <div class="column is-12-mobile is-12-tablet is-4-desktop is-3-widescreen has-background-black">
+                <div class="box column is-12-mobile is-12-tablet is-4-desktop is-3-widescreen">
                     <div class="field has-addons">
                         <div class="control is-expanded">
                             <input class="input" type="text" id="searchField" placeholder="Search for a city!">
@@ -35,25 +35,26 @@
                     </div>
 
                     <!-- Dropdown w/ history goes here -->
-                    <nav class="navbar" role="navigation" aria-label="main navigation">
+                    <nav class="navbar box" role="navigation" aria-label="main navigation">
+                        <div class="navbar-brand">
+                            <h3 class="title is-4 m-3">Previous Searches</h3>
+                            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="history">
+                                <span aria-hidden="true"></span>
+                                <span aria-hidden="true"></span>
+                                <span aria-hidden="true"></span>
+                            </a>
+                        </div>
 
-                        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="history">
-                            <span aria-hidden="true"></span>
-                            <span aria-hidden="true"></span>
-                            <span aria-hidden="true"></span>
-                        </a>
-                      
-                        <div id="history">
+                        <div class="navbar-menu" id="history">
                             <ul class="content p-4" id="historyField">
                                 <!-- History items go here -->
                             </ul>
                         </div>
-
                     </nav>
 
                 </div>
 
-                <div class="column is-12-mobile is-12-tablet is-8-desktop is-9-widescreen has-background-danger">
+                <div class="box column is-12-mobile is-12-tablet is-8-desktop is-9-widescreen">
                     <div class="box content">
                         <h1><span id="cityField"></span> <span id="dateField"></span> <img id="iconField" style="visibility:hidden;" src="#"></h1>
                         <h2 style="display:none;" id="errorField"></h2>
@@ -63,7 +64,7 @@
                         <p>UV Index: <span id="uvIndexField"></span></p>
                     </div>
 
-                    <ul class="columns is-desktop p-4 is-multiline has-background-primary" id="forecastField">
+                    <ul class="columns is-desktop p-4 is-multiline" id="forecastField">
 
                     </ul>
 
