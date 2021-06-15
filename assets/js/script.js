@@ -113,7 +113,7 @@ function populateForecastCards(oDays) {
 
         // Temperature display
         var eTemp = $("<p>");
-        eTemp.text("Temp: " + oDays[index].temp.day + " F");
+        eTemp.text("Temp: " + oDays[index].temp.day + " °F");
 
         // Wind speed display
         var eWind = $("<p>");
@@ -182,14 +182,36 @@ function getForecast(lat, lon) {
 
     }).then(function (data) {
 
-        aeTodaysWeather[1].text(moment.unix(Number(data.current.dt)).format("MM/DD")); // Date
+        var nUV = Number(data.current.uvi);
+        var sBackColor;
+
+        // Set background color of UV element based on number
+        if (nUV > 8) { // severe
+
+            sBackColor = "has-background-danger";
+        } else if (nUV > 3) { // Moderate
+
+            sBackColor = "has-background-warning";
+        } else { // Favorable
+
+            sBackColor = "has-background-info";
+        }
+
+        // Clear the UV color before setting it
+        aeTodaysWeather[6].removeClass("has-background-info");
+        aeTodaysWeather[6].removeClass("has-background-warning");
+        aeTodaysWeather[6].removeClass("has-background-danger");
+
+        // Populate main fields
+        aeTodaysWeather[1].text("(" + moment.unix(Number(data.current.dt)).format("MM/DD") + ")"); // Date
         aeTodaysWeather[2].attr("src", ICON_BASE_URL + data.daily[0].weather[0].icon + ".png"); // Weather icon
         aeTodaysWeather[2].attr("alt", data.current.weather[0].description); // Set the alt text
         aeTodaysWeather[2].attr("style", "visibility:visible;"); // Show the icon
-        aeTodaysWeather[3].text(data.current.temp + " F"); // Temperature (Choose temp by time?)
+        aeTodaysWeather[3].text(data.current.temp + " °F"); // Temperature (Choose temp by time?)
         aeTodaysWeather[4].text(data.current.wind_speed + " MPH"); // Wind Speed
         aeTodaysWeather[5].text(data.current.humidity + "%"); // Humidity
-        aeTodaysWeather[6].text(data.current.uvi); // UV index
+        aeTodaysWeather[6].text(nUV); // UV index
+        aeTodaysWeather[6].addClass(sBackColor);
 
         // Only send the next 5 days to populateForecastCards
         var aFiveDays = data.daily.slice(1, 6); // I tested this parameter set with jsfiddle
@@ -260,7 +282,7 @@ function getWeather(request) {
 
                 } else { // If this is the first string
 
-                    sDataToSave = JSON.stringify(sCurrentSearch); // Save first search
+                    sDataToSave = sCurrentSearch; // Save first search
                 }
 
                 // Save the data

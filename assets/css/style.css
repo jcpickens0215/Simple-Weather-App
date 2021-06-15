@@ -9,3 +9,9 @@
 .navbar-menu ul, .navbar-menu button {
     width: 100%;
 }
+
+#uvIndexField {
+    background-color: grey;
+    border-radius: 5px;
+    padding: .5rem .75rem;
+}
