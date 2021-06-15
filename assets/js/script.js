@@ -103,7 +103,7 @@ function populateForecastCards(oDays) {
         // Create the Header
         var eHeader = $("<h3>");
         eHeader.addClass("subtitle is-3");
-        eHeader.text("Date: "); // Use moment to convert UNIX timestamp
+        eHeader.text(moment.unix(Number(oDays[index].dt)).format("dddd MM/DD")); // Show the date
 
         // Icon representing weather state
         var eIcon = $("<img>");
@@ -180,7 +180,7 @@ function getForecast(lat, lon) {
 
     }).then(function (data) {
 
-        aeTodaysWeather[1].text(data.daily[0].dt); // Date
+        aeTodaysWeather[1].text(moment.unix(Number(data.current.dt)).format("MM/DD")); // Date
         aeTodaysWeather[2].attr("src", ICON_BASE_URL + data.daily[0].weather[0].icon + ".png"); // Weather icon
         aeTodaysWeather[2].attr("alt", data.current.weather[0].description); // Set the alt text
         aeTodaysWeather[2].attr("style", "visibility:visible;"); // Show the icon
