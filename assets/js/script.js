@@ -7,6 +7,8 @@ var aPreviousSearches = []; // Array to contain searches
 var sCurrentSearch = "";
 
 // Element vars
+var eColSearch = $("#colSearch");
+var eColInfo = $("#colInfo");
 var eForecastField = $("#forecastField");
 var eSearchField = $("#searchField");
 var eHistoryField = $("#historyField");
@@ -40,6 +42,17 @@ function initLoadHistoryFromLocalStorage() {
             // Display loaded history items
             populateHistoryList();
         }
+}
+
+function showAllPanels() {
+    $("#main").addClass("is-fluid");
+    eColInfo.removeClass("is-hidden");
+    eColSearch.addClass("is-4-desktop is-3-widescreen is-fluid");
+    eColInfo.addClass("is-8-desktop is-9-widescreen");
+}
+
+function initHidePanels() {
+    eColInfo.addClass("is-hidden");
 }
 
 // Clear the history list
@@ -296,6 +309,7 @@ function getWeather(request) {
 }
 
 // Initial function calls
+initHidePanels();
 initLoadHistoryFromLocalStorage();
 
 // When the user clicks the "Search" button, use the text in the search field
@@ -309,7 +323,7 @@ eSearchButton.click(function () {
     // Construct the request URL
     var sRequest = BASE_URL + "weather?appid=" + API_KEY + "&units=imperial&q=" + sCityInput;
     getWeather(sRequest); // Get data from OWM
-
+    showAllPanels();
 });
 
 // When a history list item button is clicked
@@ -327,6 +341,7 @@ eHistoryField.click(function (event) {
         // Construct the request URL
         var sRequest = BASE_URL + "weather?appid=" + API_KEY + "&units=imperial&q=" + sPreviousSearch;
         getWeather(sRequest); // Get data from OWM
+        showAllPanels();
     }
 });
 
