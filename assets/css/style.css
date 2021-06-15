@@ -1,3 +1,37 @@
+body {
+    position: relative;
+    top: -4px;
+    min-height: 100%;
+}
+
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    margin-top: 0;
+}
+
+.input {
+    border-color: #aaa;
+}
+
+.navbar-burger {
+    border-radius: 10px;
+}
+
+.navbar-burger:hover {
+    color: #aaa;
+}
+
+.navbar-burger:active {
+    background-color: #888;
+    color: #fff;
+    text-shadow: 1px 1px black;
+}
+
 .title {
     text-align: center;
 }
@@ -10,8 +44,49 @@
     width: 100%;
 }
 
+.navbar-menu button {
+
+    border: none;
+    border-radius: 4px;
+}
+
+.navbar-menu button:hover {
+    background-color: #aaa;
+}
+
+.navbar-menu button:active {
+    background-color: #fff;
+    color: #209CEE;
+}
+
+.dark {
+    background-color: #333;
+    color: #aaa;
+}
+
+.dark-trim {
+    background-color: #444;
+    color: #bbb;
+}
+
+.mid-tone {
+    background-color: #888;
+    color: #fff;
+    text-shadow: 1px 1px black;
+}
+
 #uvIndexField {
     background-color: grey;
     border-radius: 5px;
     padding: .5rem .75rem;
+}
+
+#colSearch {
+    margin-bottom: 0;
+}
+
+#searchField::placeholder {
+    color: #fff;
+    text-shadow: 1px 1px black;
+    opacity: 1;
 }

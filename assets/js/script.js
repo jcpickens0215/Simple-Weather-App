@@ -112,11 +112,11 @@ function populateForecastCards(oDays) {
 
         // Create the container
         var eBox = $("<div>");
-        eBox.addClass("box content");
+        eBox.addClass("box content dark-trim");
 
         // Create the Header
         var eHeader = $("<h3>");
-        eHeader.addClass("subtitle is-5");
+        eHeader.addClass("subtitle is-5 has-text-light");
         eHeader.text(moment.unix(Number(oDays[index].dt)).format("dddd MM/DD")); // Show the date
 
         // Icon representing weather state
@@ -173,7 +173,7 @@ function populateHistoryList() {
                 // Set Button attributes
                 eListLink.attr("data-query", aPreviousSearches[index]);
                 eListLink.text(aPreviousSearches[index]);
-                eListLink.addClass("subtitle is-5 p-2");
+                eListLink.addClass("subtitle is-5 p-1 mid-tone");
 
                 // Add the Button to the list
                 eListItem.append(eListLink);
