@@ -295,7 +295,7 @@ function getWeather(request) {
 
                 } else { // If this is the first string
 
-                    sDataToSave = sCurrentSearch; // Save first search
+                    sDataToSave = '["' + sCurrentSearch + '"]'; // Save first search
                 }
 
                 // Save the data
@@ -308,14 +308,8 @@ function getWeather(request) {
     });
 }
 
-// Initial function calls
-initHidePanels();
-initLoadHistoryFromLocalStorage();
-
-// When the user clicks the "Search" button, use the text in the search field
-// to get the weather from the API call
-eSearchButton.click(function () {
-
+function makeSearchRequest() {
+    
     // Get the text from the search bar
     var sCityInput = eSearchField.val();
     eSearchField.val(""); // Clear the search bar
@@ -324,7 +318,15 @@ eSearchButton.click(function () {
     var sRequest = BASE_URL + "weather?appid=" + API_KEY + "&units=imperial&q=" + sCityInput;
     getWeather(sRequest); // Get data from OWM
     showAllPanels();
-});
+}
+
+// Initial function calls
+initHidePanels();
+initLoadHistoryFromLocalStorage();
+
+// When the user clicks the "Search" button, use the text in the search field
+// to get the weather from the API call
+eSearchButton.click(makeSearchRequest);
 
 // When a history list item button is clicked
 eHistoryField.click(function (event) {
